@@ -1,0 +1,33 @@
+﻿<Application x:Class="SampleApplication.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VisualValidation="clr-namespace:VisualValidation;assembly=VisualValidation"
+    StartupUri="MainContainer.xaml">
+    <Application.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="ErrorTextStyle">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" Value="False">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(VisualValidation:ValidationContainer.ValidationResult).ErrorMessage}" />
+                    <Setter Property="Background" Value="Pink" />
+                    <Setter Property="BorderBrush" Value="Red" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}" x:Key="ErrorCheckBoxStyle">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" Value="False">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(VisualValidation:ValidationContainer.ValidationResult).ErrorMessage}" />
+                    <Setter Property="Background" Value="Pink" />
+                    <Setter Property="BorderBrush" Value="Red" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,8 @@
+﻿<UserControl x:Class="SampleApplication.MainContainer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+    <Grid >
+        <Border x:Name="ContentControl" />
+    </Grid>
+</UserControl>

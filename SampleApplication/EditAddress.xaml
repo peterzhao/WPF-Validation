@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="SampleApplication.EditAddress"
+             x:Name="addressControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VisualValidation="clr-namespace:VisualValidation;assembly=VisualValidation"
+    >
+    <VisualValidation:ValidationContainer  ValidationSource="{Binding ElementName=addressControl, Path=DataContext}">
+        <Grid x:Name="addressGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Address1: " />
+            <TextBox Grid.Row="0" Grid.Column="1" 
+                  x:Name="Address1"
+                  VisualValidation:ValidationContainer.ValidationField="Address1"
+                 Style="{StaticResource ErrorTextStyle}"
+                 Text="{Binding Path=Address1, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Address2: " />
+            <TextBox Grid.Row="1" Grid.Column="1" 
+                 Text="{Binding Path=Address2, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="City: " />
+            <TextBox Grid.Row="2" Grid.Column="1" 
+                  VisualValidation:ValidationContainer.ValidationField="City"
+                 Style="{StaticResource ErrorTextStyle}"
+                 Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Province: " />
+            <TextBox Grid.Row="3" Grid.Column="1" 
+                  VisualValidation:ValidationContainer.ValidationField="Province"
+                 Style="{StaticResource ErrorTextStyle}"
+                 Text="{Binding Path=Province, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Postal code: " />
+            <TextBox Grid.Row="4" Grid.Column="1" 
+                  VisualValidation:ValidationContainer.ValidationField="PostalCode"
+                 Style="{StaticResource ErrorTextStyle}"
+                 Text="{Binding Path=PostalCode, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+
+        </Grid>
+    </VisualValidation:ValidationContainer>
+</UserControl>

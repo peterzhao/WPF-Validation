@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="SampleApplication.SubmitOrder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:SampleApplication="clr-namespace:SampleApplication"
+    xmlns:VisualValidation="clr-namespace:VisualValidation;assembly=VisualValidation"
+    >
+    <VisualValidation:ValidationContainer  ValidationSource="{Binding Path=Order}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="User Name: " />
+        <TextBox Grid.Row="0" Grid.Column="1" 
+                 x:Name="userName"
+                 VisualValidation:ValidationContainer.ValidationField="UserName"
+                 Style="{StaticResource ErrorTextStyle}"
+                 Text="{Binding Path=Order.UserName, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Need Delivery: " />
+        <CheckBox Grid.Row="1" Grid.Column="1" 
+                   x:Name="NeedDelivery"
+                  Style="{StaticResource ErrorCheckBoxStyle}"
+                   VisualValidation:ValidationContainer.ValidationField="NeedDelivery"
+                  IsChecked="{Binding Path=Order.NeedDelivery}" Width="50"/>
+        <SampleApplication:EditAddress Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="2" HorizontalAlignment="Center" 
+                                        x:Name="EditAddress"
+                                       DataContext="{Binding Path=Order.DeliveryAddress}"/>
+        <TextBlock Grid.Row="3" Grid.Column="0"  Text="Line Items:" />
+        <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Order.LineItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Product.Description}" Margin="5" Width="150"/>
+                        <TextBox Text="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="50" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Submit" Command="{Binding Path=SubmitCommand}"/>
+    </Grid>
+   </VisualValidation:ValidationContainer>
+</UserControl>
