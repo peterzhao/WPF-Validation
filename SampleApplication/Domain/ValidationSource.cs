@@ -21,7 +21,7 @@ namespace SampleApplication.Domain
                 if(value != validationEnabled)
                 {
                     validationEnabled = value;
-                    ValidationEnabledChanged.Invoke(this, null);
+                    OnValidationEnabledChanged();
                     NotifyPropertyChanged("ValidationEnabled");
                 }
             }
@@ -32,8 +32,11 @@ namespace SampleApplication.Domain
             get { return ValidationFuncs.Values.All(func => string.IsNullOrEmpty(func.Invoke())); }
         }
 
-        public event EventHandler ValidationEnabledChanged = delegate{};
-
+        //can be used to set ValidationEnabled of children ValidationSources.
+        protected virtual void OnValidationEnabledChanged()
+        {
+            
+        }
        
     }
 }

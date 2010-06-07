@@ -4,6 +4,8 @@
     xmlns:VisualValidation="clr-namespace:VisualValidation;assembly=VisualValidation"
     StartupUri="MainContainer.xaml">
     <Application.Resources>
+        
+        
         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="ErrorTextStyle">
             <Setter Property="Background" Value="White" />
             <Setter Property="Foreground" Value="Black"/>
@@ -16,6 +18,29 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <ControlTemplate x:Key="AdnoredErrorTemplate">
+<!--            <Border BorderBrush="Red" BorderThickness="2">-->
+<!--                <VisualValidation:AdornedElementPlaceholderExtended />-->
+<!--            </Border>-->
+            <Border BorderBrush="Red" BorderThickness="2">
+                <StackPanel Orientation="Horizontal">
+                    <VisualValidation:AdornedElementPlaceholderExtended Name="AdornerTextBox" />
+                    
+                    <TextBlock Text="{Binding Path=ErrorMessage}" 
+					       Background="White"  Foreground="Red" Padding="5"/>  
+                </StackPanel>
+            </Border>
+        </ControlTemplate>
+
+<!--        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="AdnoredErrorTextStyle">-->
+<!--            <Style.Triggers>-->
+<!--                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" Value="False">-->
+<!--                    <Setter Property="Template" Value="{StaticResource AdnoredErrorTemplate}" />-->
+<!--                </DataTrigger>-->
+<!--            </Style.Triggers>-->
+<!--        </Style>-->
+        
         
         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}" x:Key="ErrorCheckBoxStyle">
             <Setter Property="Background" Value="White" />

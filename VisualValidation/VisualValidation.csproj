@@ -50,7 +50,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdornedElementPlaceholderExtended.cs" />
     <Compile Include="IValidationContainer.cs" />
+    <Compile Include="TemplatedAdorner.cs" />
     <Compile Include="UIElementWrapper.cs" />
     <Compile Include="IUIElement.cs" />
     <Compile Include="IValidationContext.cs" />

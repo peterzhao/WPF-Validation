@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace VisualValidation
 {
-    public class UiTreeHelper 
+    internal class UiTreeHelper 
     {
         public IValidationContainer FindValidationContainer(DependencyObject dependencyObject)
         {

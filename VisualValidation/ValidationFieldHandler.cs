@@ -34,7 +34,7 @@ namespace VisualValidation
 
         private void SetValidationSourceHandler()
         {
-            var newSource = validationContainer.ValidationSource;
+            var newSource = validationContainer.ValidationSource as IValidationSource;
             Debug.WriteLine(string.Format("ValiationSource set from filed handler: new one: {0}, current once: {1}, for field {2} ", newSource, validationSource, uiElement));
             if (newSource != validationSource)
             {

@@ -48,12 +48,13 @@ namespace SampleApplication.Domain
                 if (needDelivery != value)
                 {
                     needDelivery = value;
-                    DeliveryAddress.ValidationEnabled = needDelivery != null && needDelivery.Value;
+                    SetValidationEnabledForAddress();
                     NotifyPropertyChanged(MethodBase.GetCurrentMethod());
                 }
             }
         }
 
+       
 
         public Address DeliveryAddress
         {
@@ -86,6 +87,21 @@ namespace SampleApplication.Domain
         public override IDictionary<string, Func<string>> ValidationFuncs
         {
             get { return validationFuncs; }
+        }
+
+        protected override void OnValidationEnabledChanged()
+        {
+            base.OnValidationEnabledChanged();
+            if(LineItems != null)
+            {
+                LineItems.ForEach(item => item.ValidationEnabled = ValidationEnabled);
+            }
+            SetValidationEnabledForAddress();
+        }
+
+        private void SetValidationEnabledForAddress()
+        {
+            DeliveryAddress.ValidationEnabled = needDelivery != null && needDelivery.Value && ValidationEnabled;
         }
     }
 }
