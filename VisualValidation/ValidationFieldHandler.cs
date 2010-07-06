@@ -72,10 +72,9 @@ namespace VisualValidation
 
         private void OnValidationSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == validationFiled )
-            {
+           
                 SetValidationResult();
-            }
+           
         }
     }
 }

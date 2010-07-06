@@ -37,7 +37,7 @@ namespace SampleApplication.ViewModels
 
         private void UpdateAddressVadliationEnabled()
         {
-             addressViewModel.ValidationEnabled = ValidationEnabled && order.NeedDelivery.Value;
+            addressViewModel.ValidationEnabled = ValidationEnabled && order.NeedDelivery.HasValue && order.NeedDelivery.Value;
         }
 
         public bool ValidationEnabled
