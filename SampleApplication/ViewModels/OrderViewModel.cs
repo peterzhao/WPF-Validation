@@ -1,38 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using SampleApplication.Domain;
+using VisualValidation;
 
 namespace SampleApplication.ViewModels
 {
-    public class OrderViewModel  :PropertyChangedNotifier
+    public class OrderViewModel : PropertyChangedNotifier
     {
         private Order order;
-
+        private bool validationEnabled;
+        private AddressViewModel addressViewModel;
 
         public OrderViewModel()
         {
             order = CreateOrder();
+            addressViewModel = new AddressViewModel(order.DeliveryAddress);
+
+            order.PropertyChanged += (s, e) =>
+                                         {
+                                             if (e.PropertyName == "NeedDelivery")
+                                             {
+                                                 UpdateAddressVadliationEnabled();
+                                             }
+                                         };
             SubmitCommand = new SimpleCommand
                                 {
                                     ExecuteDelegate = p =>
                                                           {
-                                                              if (!Order.ValidationEnabled)
-                                                              {
-                                                                  Order.ValidationEnabled = true;
-                                                              }
-
-                                                              if(Order.IsValid) Submit();
+                                                              ValidationEnabled = true;
+                                                              if (Order.IsValid) Submit();
                                                           },
-                                    CanExecuteDelegate = p =>
-                                                             {
-                                                                 return !Order.ValidationEnabled || Order.IsValid;
-                                                             }
-
+                                    CanExecuteDelegate = p => !ValidationEnabled || Order.IsValid
                                 };
 
+        }
+
+        private void UpdateAddressVadliationEnabled()
+        {
+             addressViewModel.ValidationEnabled = ValidationEnabled && order.NeedDelivery.Value;
+        }
+
+        public bool ValidationEnabled
+        {
+            get { return validationEnabled; }
+            set
+            {
+                if (value != validationEnabled)
+                {
+                    validationEnabled = value;
+                    NotifyPropertyChanged(MethodBase.GetCurrentMethod());
+                    UpdateAddressVadliationEnabled();
+                }
+            }
         }
 
         private Order CreateOrder()
@@ -51,7 +70,7 @@ namespace SampleApplication.ViewModels
 
         private void Submit()
         {
-            
+
         }
 
         public Order Order
@@ -60,10 +79,13 @@ namespace SampleApplication.ViewModels
             {
                 return order;
             }
-           
+
         }
 
-       public  SimpleCommand SubmitCommand { get; set; }
+        public AddressViewModel AddressViewModel { get { return addressViewModel; }
+        }
+
+        public SimpleCommand SubmitCommand { get; set; }
 
 
     }

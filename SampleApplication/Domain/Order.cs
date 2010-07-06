@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using VisualValidation;
 
 namespace SampleApplication.Domain
 {
@@ -48,7 +49,6 @@ namespace SampleApplication.Domain
                 if (needDelivery != value)
                 {
                     needDelivery = value;
-                    SetValidationEnabledForAddress();
                     NotifyPropertyChanged(MethodBase.GetCurrentMethod());
                 }
             }
@@ -89,19 +89,6 @@ namespace SampleApplication.Domain
             get { return validationFuncs; }
         }
 
-        protected override void OnValidationEnabledChanged()
-        {
-            base.OnValidationEnabledChanged();
-            if(LineItems != null)
-            {
-                LineItems.ForEach(item => item.ValidationEnabled = ValidationEnabled);
-            }
-            SetValidationEnabledForAddress();
-        }
-
-        private void SetValidationEnabledForAddress()
-        {
-            DeliveryAddress.ValidationEnabled = needDelivery != null && needDelivery.Value && ValidationEnabled;
-        }
+       
     }
 }
