@@ -1,0 +1,9 @@
+SampleApplication/bin/
+SampleApplication/obj/
+Tests/bin/
+Tests/obj/
+VisualValidation.4.5.resharper.user
+VisualValidation.suo
+VisualValidation/bin/
+VisualValidation/obj/
+_ReSharper.VisualValidation/
