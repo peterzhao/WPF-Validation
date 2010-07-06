@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Windows;
 
 namespace VisualValidation
 {
@@ -21,11 +17,17 @@ namespace VisualValidation
             this.validationFiled = validationFiled;
             this.validationContainer = validationContainer;
             validationContainer.ValidationSourceChanged += OnValidationSourceChanged;
+            validationContainer.ValidationEnabledChanged += OnValidationEnabledChanged;
             SetValidationSourceHandler();
             Debug.WriteLine(string.Format("Validation Handler constructed. validaton source: {0},  field {1} ", validationSource, uiElement));
         }
 
-       private void  OnValidationSourceChanged(object sender, EventArgs e)
+        private void OnValidationEnabledChanged(object sender, EventArgs e)
+        {
+            SetValidationResult(); 
+        }
+
+        private void  OnValidationSourceChanged(object sender, EventArgs e)
        {
            SetValidationSourceHandler();
            Debug.WriteLine(string.Format("ValiationSource changed:  current once: {0}, for field {1} ", validationSource, uiElement));
@@ -34,7 +36,7 @@ namespace VisualValidation
 
         private void SetValidationSourceHandler()
         {
-            var newSource = validationContainer.ValidationSource as IValidationSource;
+            var newSource = validationContainer.ValidationSource ;
             Debug.WriteLine(string.Format("ValiationSource set from filed handler: new one: {0}, current once: {1}, for field {2} ", newSource, validationSource, uiElement));
             if (newSource != validationSource)
             {
@@ -49,9 +51,10 @@ namespace VisualValidation
         private void SetValidationResult()
         {
             var errorMessage = "";
-            if (validationSource != null)
-                if (validationSource.ValidationEnabled)
-                    if (validationSource.ValidationFuncs.Keys.Contains(validationFiled)) errorMessage = validationSource.ValidationFuncs[validationFiled].Invoke();
+                if (validationContainer.ValidationEnabled 
+                    && validationSource != null 
+                    && validationSource.ValidationFuncs!=null && validationSource.ValidationFuncs.Keys.Contains(validationFiled))
+                    errorMessage = validationSource.ValidationFuncs[validationFiled].Invoke();
 
             uiElement.SetValue(ValidationContainer.ValidationResultProperty, new ValidationResult(errorMessage));
         }
@@ -69,7 +72,7 @@ namespace VisualValidation
 
         private void OnValidationSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == validationFiled || e.PropertyName == "ValidationEnabled")
+            if (e.PropertyName == validationFiled )
             {
                 SetValidationResult();
             }

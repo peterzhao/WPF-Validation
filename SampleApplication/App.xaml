@@ -19,29 +19,10 @@
             </Style.Triggers>
         </Style>
 
-        <ControlTemplate x:Key="AdnoredErrorTemplate">
-<!--            <Border BorderBrush="Red" BorderThickness="2">-->
-<!--                <VisualValidation:AdornedElementPlaceholderExtended />-->
-<!--            </Border>-->
-            <Border BorderBrush="Red" BorderThickness="2">
-                <StackPanel Orientation="Horizontal">
-                    <VisualValidation:AdornedElementPlaceholderExtended Name="AdornerTextBox" />
-                    
-                    <TextBlock Text="{Binding Path=ErrorMessage}" 
-					       Background="White"  Foreground="Red" Padding="5"/>  
-                </StackPanel>
-            </Border>
-        </ControlTemplate>
+      
 
-<!--        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="AdnoredErrorTextStyle">-->
-<!--            <Style.Triggers>-->
-<!--                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" Value="False">-->
-<!--                    <Setter Property="Template" Value="{StaticResource AdnoredErrorTemplate}" />-->
-<!--                </DataTrigger>-->
-<!--            </Style.Triggers>-->
-<!--        </Style>-->
-        
-        
+      
+
         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}" x:Key="ErrorCheckBoxStyle">
             <Setter Property="Background" Value="White" />
             <Setter Property="Foreground" Value="Black"/>
@@ -54,5 +35,24 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <ControlTemplate x:Key="AdnoredErrorTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <VisualValidation:AdornedElementPlaceholderExtended Name="AdornerTextBox" />
+                </Border>
+                <TextBlock Text="{Binding Path=ErrorMessage}" 
+					           Background="White"  Foreground="Red" Padding="5"/>
+            </StackPanel>
+        </ControlTemplate>
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="VisualValidation:ValidationContainer.ValidationTemplate" Value="{StaticResource AdnoredErrorTemplate}" />
+        </Style>
+
+        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+            <Setter Property="VisualValidation:ValidationContainer.ValidationTemplate" Value="{StaticResource AdnoredErrorTemplate}" />
+        </Style>
+
     </Application.Resources>
 </Application>

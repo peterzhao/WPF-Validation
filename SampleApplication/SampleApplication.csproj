@@ -73,11 +73,10 @@
     <Compile Include="Domain\LineItem.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\Product.cs" />
-    <Compile Include="Domain\PropertyChangedNotifier.cs" />
-    <Compile Include="Domain\ValidationSource.cs" />
     <Compile Include="EditAddress.xaml.cs">
       <DependentUpon>EditAddress.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InverseBoolenToVisibilityConverter.cs" />
     <Compile Include="MainContainer.xaml.cs">
       <DependentUpon>MainContainer.xaml</DependentUpon>
     </Compile>
@@ -97,6 +96,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\AddressViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\SimpleCommand.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

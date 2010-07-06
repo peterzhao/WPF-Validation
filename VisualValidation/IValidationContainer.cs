@@ -5,7 +5,8 @@ namespace VisualValidation
     public interface IValidationContainer
     {
         IValidationSource ValidationSource { get; set; }
-        void RaiseValidationSourceChangedEvent();
         event EventHandler ValidationSourceChanged;
+        event EventHandler ValidationEnabledChanged;
+        bool ValidationEnabled { get; set; }
     }
 }

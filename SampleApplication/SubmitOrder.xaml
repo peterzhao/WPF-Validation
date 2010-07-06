@@ -3,8 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:SampleApplication="clr-namespace:SampleApplication"
     xmlns:VisualValidation="clr-namespace:VisualValidation;assembly=VisualValidation"
+    x:Name="SubmitOrderConrol"        
     >
-    <VisualValidation:ValidationContainer  ValidationSource="{Binding Path=Order}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibility"/>
+    </UserControl.Resources>
+    <VisualValidation:ValidationContainer  ValidationSource="{Binding Path=Order}" ValidationEnabled="{Binding Path=ValidationEnabled}" >
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -16,32 +20,35 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="User Name: " />
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="User Name: " VerticalAlignment="Center"/>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="10"
+                 VerticalAlignment="Center"
                  x:Name="userName"
                  VisualValidation:ValidationContainer.ValidationField="UserName"
-                 VisualValidation:ValidationContainer.ValidationTemplate="{StaticResource AdnoredErrorTemplate}"
                  Text="{Binding Path=Order.UserName, UpdateSourceTrigger=PropertyChanged}" Width="200" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Need Delivery: " />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Need Delivery: " VerticalAlignment="Center"/>
             <CheckBox Grid.Row="1" Grid.Column="1" 
+                    VerticalAlignment="Center"
                    x:Name="NeedDelivery"
-                  Style="{StaticResource ErrorCheckBoxStyle}"
+                   Style="{StaticResource ErrorCheckBoxStyle}"
                    VisualValidation:ValidationContainer.ValidationField="NeedDelivery"
                   IsChecked="{Binding Path=Order.NeedDelivery}" Width="50"/>
             <SampleApplication:EditAddress Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="2" HorizontalAlignment="Center" 
+                                        Margin="0,5,0,10"
+                                        Visibility="{Binding ElementName=SubmitOrderConrol, Path=DataContext.Order.NeedDelivery, Converter={StaticResource booleanToVisibility}}"
                                         x:Name="EditAddress"
-                                       DataContext="{Binding Path=Order.DeliveryAddress}"/>
+                                       DataContext="{Binding Path=AddressViewModel}"/>
             <TextBlock Grid.Row="3" Grid.Column="0"  Text="Line Items:" />
             <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Order.LineItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <VisualValidation:ValidationContainer  ValidationSource="{Binding}">
+                        <VisualValidation:ValidationContainer  ValidationSource="{Binding}" ValidationEnabled="{Binding ElementName=SubmitOrderConrol, Path=DataContext.ValidationEnabled}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=Product.Description}" Margin="5" Width="150"/>
                                 <TextBox Text="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" 
                                          Margin="5" Width="50" HorizontalAlignment="Left"
-                                         Style="{StaticResource ErrorTextStyle}"
                                          VisualValidation:ValidationContainer.ValidationField="Quantity"/>
                             </StackPanel>
                         </VisualValidation:ValidationContainer>

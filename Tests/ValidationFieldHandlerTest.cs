@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using Moq;
 using NUnit.Framework;
@@ -53,8 +50,8 @@ namespace Tests
         [Test]
         public void ShouldUnRegisterEventFromOldValidationSourceWhenValidationSourceChanged()
         {
-            validationSource1.ValidationEnabled = true;
-            validationSource2.ValidationEnabled = true;
+           
+            validationContainerMock.Setup(c => c.ValidationEnabled).Returns(true);
 
             IValidationSource validationSource = validationSource1;
             validationContainerMock.Setup(c => c.ValidationSource).Returns(() => validationSource);
@@ -79,7 +76,7 @@ namespace Tests
         public void ShouldSet_ValidationResult_WhenValidationIsEnabled()
         {
             validationContainerMock.Setup(c => c.ValidationSource).Returns(validationSource1);
-            validationSource1.ValidationEnabled = true;
+            validationContainerMock.Setup(c => c.ValidationEnabled).Returns(true);
             errorMessage1 = "an error";
             new ValidationFieldHandler(uiElmentMock.Object, fieldName, validationContainerMock.Object);
 
@@ -90,7 +87,7 @@ namespace Tests
         public void ShouldSet_ValidationResult_WhenValidationIsNotEnabled()
         {
             validationContainerMock.Setup(c => c.ValidationSource).Returns(validationSource1);
-            validationSource1.ValidationEnabled = false;
+            validationContainerMock.Setup(c => c.ValidationEnabled).Returns(false);
             errorMessage1 = "an error"; //this does not matter
             new ValidationFieldHandler(uiElmentMock.Object, fieldName, validationContainerMock.Object);
 
@@ -101,12 +98,13 @@ namespace Tests
         public void ShouldSetValidationResultWhenValidationIsEnabledChanged()
         {
             validationContainerMock.Setup(c => c.ValidationSource).Returns(validationSource1);
-            validationSource1.ValidationEnabled = false;
+            var validationEnabled = false;
+            validationContainerMock.Setup(c => c.ValidationEnabled).Returns(()=> validationEnabled);
             errorMessage1 = "an error";
             new ValidationFieldHandler(uiElmentMock.Object, fieldName, validationContainerMock.Object);
 
-            validationSource1.ValidationEnabled = true;
-            validationSource1.NotifyValidationEnabledChanged();
+            validationEnabled = true;
+            validationContainerMock.Raise(c => c.ValidationEnabledChanged += null,EventArgs.Empty);
 
             Assert.AreEqual(errorMessage1, validationResult.ErrorMessage);
         }
@@ -115,7 +113,7 @@ namespace Tests
         public void ShouldSetValidationResultWhenValidationSourcePropertyChanged()
         {
             validationContainerMock.Setup(c => c.ValidationSource).Returns(validationSource1);
-            validationSource1.ValidationEnabled = true;
+            validationContainerMock.Setup(c => c.ValidationEnabled).Returns(true);
             new ValidationFieldHandler(uiElmentMock.Object, fieldName, validationContainerMock.Object);
             
             errorMessage1 = "an error for field " + fieldName;

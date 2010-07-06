@@ -14,7 +14,6 @@ namespace Tests
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate{};
-        public bool ValidationEnabled { get; set; }
 
         
         public IDictionary<string, Func<string>> ValidationFuncs   { get; set; }
@@ -24,9 +23,6 @@ namespace Tests
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void NotifyValidationEnabledChanged()
-        {
-            NotifyPropertyChanged("ValidationEnabled");
-        }
+      
     }
 }

@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:VisualValidation="clr-namespace:VisualValidation;assembly=VisualValidation"
     >
-    <VisualValidation:ValidationContainer  ValidationSource="{Binding ElementName=addressControl, Path=DataContext}">
-        <Grid x:Name="addressGrid">
+    <VisualValidation:ValidationContainer  ValidationSource="{Binding Path=Address}" ValidationEnabled="{Binding Path=ValidationEnabled}">
+        <Grid x:Name="addressGrid" DataContext="{Binding Path=Address}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>

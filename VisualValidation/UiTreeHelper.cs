@@ -14,7 +14,7 @@ namespace VisualValidation
             var container = dependencyObject as IValidationContainer;
             if(container != null) return container;
 
-            var parent = VisualTreeHelper.GetParent(dependencyObject);
+            var parent = LogicalTreeHelper.GetParent(dependencyObject);
             if(parent == null) return null;
 
             return FindValidationContainer(parent);
