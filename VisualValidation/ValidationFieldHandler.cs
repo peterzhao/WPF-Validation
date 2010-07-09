@@ -52,9 +52,8 @@ namespace VisualValidation
         {
             var errorMessage = "";
                 if (validationContainer.ValidationEnabled 
-                    && validationSource != null 
-                    && validationSource.ValidationFuncs!=null && validationSource.ValidationFuncs.Keys.Contains(validationFiled))
-                    errorMessage = validationSource.ValidationFuncs[validationFiled].Invoke();
+                    && validationSource != null )
+                    errorMessage = validationSource[validationFiled];
 
             uiElement.SetValue(ValidationContainer.ValidationResultProperty, new ValidationResult(errorMessage));
         }

@@ -21,6 +21,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="User Name: " VerticalAlignment="Center"/>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="10"
@@ -32,19 +33,20 @@
             <CheckBox Grid.Row="1" Grid.Column="1" 
                     VerticalAlignment="Center"
                    x:Name="NeedDelivery"
-                   Style="{StaticResource ErrorCheckBoxStyle}"
                    VisualValidation:ValidationContainer.ValidationField="NeedDelivery"
                   IsChecked="{Binding Path=Order.NeedDelivery}" Width="50"/>
+            <!--Visibility="{Binding ElementName=SubmitOrderConrol, Path=DataContext.Order.NeedDelivery, Converter={StaticResource booleanToVisibility}}"-->
             <SampleApplication:EditAddress Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="2" HorizontalAlignment="Center" 
                                         Margin="0,5,0,10"
-                                        Visibility="{Binding ElementName=SubmitOrderConrol, Path=DataContext.Order.NeedDelivery, Converter={StaticResource booleanToVisibility}}"
                                         x:Name="EditAddress"
                                        DataContext="{Binding Path=AddressViewModel}"/>
             <TextBlock Grid.Row="3" Grid.Column="0"  Text="Line Items:" />
             <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Order.LineItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <VisualValidation:ValidationContainer  ValidationSource="{Binding}" ValidationEnabled="{Binding ElementName=SubmitOrderConrol, Path=DataContext.ValidationEnabled}">
+                        <VisualValidation:ValidationContainer  ValidationSource="{Binding}" 
+                         ValidationEnabled="{Binding ElementName=SubmitOrderConrol, 
+                            Path=DataContext.ValidationEnabled}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=Product.Description}" Margin="5" Width="150"/>
                                 <TextBox Text="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" 
@@ -55,7 +57,8 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Submit" Command="{Binding Path=SubmitCommand}"/>
+            <Button Grid.Row="4" Grid.ColumnSpan="1" HorizontalAlignment="Center" Content="Submit" Command="{Binding Path=SubmitCommand}"/>
+            <Button Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Reset" Command="{Binding Path=ResetCommand}"/>
         </Grid>
     </VisualValidation:ValidationContainer>
 </UserControl>

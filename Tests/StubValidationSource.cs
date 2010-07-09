@@ -23,6 +23,13 @@ namespace Tests
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-      
+        public string this[string validationFieldd]
+        {
+            get
+            {
+                if (ValidationFuncs == null || !ValidationFuncs.Keys.Contains(validationFieldd)) return string.Empty;
+                return ValidationFuncs[validationFieldd].Invoke();
+            }
+        }
     }
 }

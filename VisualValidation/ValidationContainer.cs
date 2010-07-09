@@ -52,7 +52,7 @@ namespace VisualValidation
         public static readonly DependencyProperty ValidationEnabledProperty =
           DependencyProperty.Register("ValidationEnabled", typeof(bool),
                                       typeof(ValidationContainer),
-                                      new FrameworkPropertyMetadata(false, OnValidationEnabledSet));
+                                      new PropertyMetadata(false, OnValidationEnabledSet));
 
         public static readonly DependencyProperty ValidationTemplateProperty = DependencyProperty.RegisterAttached("ValidationTemplate",
             typeof(ControlTemplate), typeof(ValidationContainer), new PropertyMetadata(null));
@@ -105,6 +105,7 @@ namespace VisualValidation
             }
         }
 
+        
         #endregion
 
 
@@ -131,11 +132,11 @@ namespace VisualValidation
 
         private static void OnValidationSourcePropertySet(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var uiElement = d as IValidationContainer;
-            if (uiElement != null)
+            var container = d as ValidationContainer;
+            if (container != null)
             {
-                uiElement.ValidationSource = e.NewValue as IValidationSource;
-                Debug.WriteLine(string.Format("Validation source {0} set on {1}", e.NewValue, uiElement));
+                container.NotifyValidationSourceChanged();
+                Debug.WriteLine(string.Format("Validation source {0} set on {1}", e.NewValue, container));
             }
         }
 
@@ -158,11 +159,11 @@ namespace VisualValidation
 
         private static void OnValidationEnabledSet(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var uiElement = d as IValidationContainer;
-            if (uiElement != null)
+            var container = d as ValidationContainer;
+            if (container != null)
             {
-                uiElement.ValidationEnabled = (bool)e.NewValue;
-                Debug.WriteLine(string.Format("ValidationEnabled {0} set on {1}", e.NewValue, uiElement));
+                container.NotifyValidationEnabledChanged();
+                Debug.WriteLine(string.Format("ValidationEnabled {0} set on {1}", e.NewValue, container));
 
             }
         }
@@ -218,6 +219,16 @@ namespace VisualValidation
                 }
 
             }
+        }
+
+        private void NotifyValidationEnabledChanged()
+        {
+            ValidationEnabledChanged.Invoke(this, null);
+        }
+
+        private void NotifyValidationSourceChanged()
+        {
+            ValidationSourceChanged.Invoke(this, null);
         }
     }
 }

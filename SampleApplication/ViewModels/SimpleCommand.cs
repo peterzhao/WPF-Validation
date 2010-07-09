@@ -16,6 +16,7 @@ namespace SampleApplication.ViewModels
 
         public bool CanExecute(object parameter)
         {
+            if (CanExecuteDelegate == null) return true;
             return CanExecuteDelegate.Invoke(parameter);
         }
 

@@ -32,6 +32,10 @@ namespace SampleApplication.ViewModels
                                                           },
                                     CanExecuteDelegate = p => !ValidationEnabled || Order.IsValid
                                 };
+            ResetCommand = new SimpleCommand
+                               {
+                                   ExecuteDelegate = p => ValidationEnabled = false
+                               };
 
         }
 
@@ -86,6 +90,7 @@ namespace SampleApplication.ViewModels
         }
 
         public SimpleCommand SubmitCommand { get; set; }
+        public SimpleCommand ResetCommand { get; set; }
 
 
     }

@@ -4,55 +4,45 @@
     xmlns:VisualValidation="clr-namespace:VisualValidation;assembly=VisualValidation"
     StartupUri="MainContainer.xaml">
     <Application.Resources>
-        
-        
-        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="ErrorTextStyle">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="Foreground" Value="Black"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" Value="False">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(VisualValidation:ValidationContainer.ValidationResult).ErrorMessage}" />
-                    <Setter Property="Background" Value="Pink" />
-                    <Setter Property="BorderBrush" Value="Red" />
-                    <Setter Property="BorderThickness" Value="1" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-      
-
-      
-
-        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}" x:Key="ErrorCheckBoxStyle">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="Foreground" Value="Black"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" Value="False">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(VisualValidation:ValidationContainer.ValidationResult).ErrorMessage}" />
-                    <Setter Property="Background" Value="Pink" />
-                    <Setter Property="BorderBrush" Value="Red" />
-                    <Setter Property="BorderThickness" Value="1" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
         <ControlTemplate x:Key="AdnoredErrorTemplate">
             <StackPanel Orientation="Horizontal">
-                <Border BorderBrush="Red" BorderThickness="2">
-                    <VisualValidation:AdornedElementPlaceholderExtended Name="AdornerTextBox" />
-                </Border>
+                <VisualValidation:AdornedElementPlaceholderExtended/>
                 <TextBlock Text="{Binding Path=ErrorMessage}" 
-					           Background="White"  Foreground="Red" Padding="5"/>
+					  Background="White"  Foreground="Red" Padding="5"/>
             </StackPanel>
         </ControlTemplate>
 
-        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-            <Setter Property="VisualValidation:ValidationContainer.ValidationTemplate" Value="{StaticResource AdnoredErrorTemplate}" />
+
+        <Style TargetType="TextBox">
+            <Setter Property="VisualValidation:ValidationContainer.ValidationTemplate" 
+                    Value="{StaticResource AdnoredErrorTemplate}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding 
+                    RelativeSource={RelativeSource Self},Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" 
+                    Value="False">
+                    <Setter Property="Background" Value="Pink" />
+                    <Setter Property="BorderBrush" Value="Red" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
-        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-            <Setter Property="VisualValidation:ValidationContainer.ValidationTemplate" Value="{StaticResource AdnoredErrorTemplate}" />
+        <Style TargetType="CheckBox">
+            <Setter Property="VisualValidation:ValidationContainer.ValidationTemplate" 
+                    Value="{StaticResource AdnoredErrorTemplate}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, 
+                    Path=(VisualValidation:ValidationContainer.ValidationResult).IsValid}" 
+                    Value="False">
+                    <Setter Property="Background" Value="Pink" />
+                    <Setter Property="BorderBrush" Value="Red" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
+
+       
+        
 
     </Application.Resources>
 </Application>

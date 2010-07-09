@@ -6,6 +6,6 @@ namespace VisualValidation
 {
     public interface IValidationSource : INotifyPropertyChanged
     {
-        IDictionary<string, Func<string>> ValidationFuncs{ get;}
+        string this[string validationFieldd]{ get;}
     }
 }

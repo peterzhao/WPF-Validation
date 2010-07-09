@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using VisualValidation;
 
 namespace SampleApplication.Domain
 {
-    public class LineItem : ValidationSource
+    public class LineItem : IValidationSource
     {
-        private Product product;
-        private int quantity;
-        private readonly IDictionary<string, Func<string>> validationFuncs;
-
-        public LineItem()
+       
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        
+        public string this[string validationField]
         {
-            validationFuncs = new Dictionary<string, Func<string>>
-                                  {
-                                      {"Quantity", () => Quantity < 0? "Quantity should not be less than 0.": string.Empty},
-                                  };
+            get
+            {
+                if (validationField == "Quantity")
+                    return Quantity < 0 ? "Quantity should not be less than 0." : string.Empty;
+                return string.Empty;
+            }
+        }
+        public bool IsValid
+        {
+            get { return this["Quantity"] == string.Empty; }
         }
 
         public Product Product
@@ -45,9 +51,16 @@ namespace SampleApplication.Domain
             }
         }
 
-        public override IDictionary<string, Func<string>> ValidationFuncs
+        protected void NotifyPropertyChanged(string propertyName)
         {
-            get { return validationFuncs; }
+            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        protected void NotifyPropertyChanged(MethodBase method)
+        {
+            NotifyPropertyChanged(method.Name.Substring(4));
+        }
+        private Product product;
+        private int quantity;
     }
 }

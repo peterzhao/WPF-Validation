@@ -90,7 +90,7 @@ namespace SampleApplication.Domain
             }
         }
 
-        public override IDictionary<string, Func<string>> ValidationFuncs
+        protected override IDictionary<string, Func<string>> ValidationFuncs
         {
             get { return validationFuncs; }
         }
